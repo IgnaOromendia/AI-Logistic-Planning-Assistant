@@ -1,0 +1,20 @@
+{
+    "name": "update_order_status",
+    "description": "Actualiza el status de un orden con su correspondiente ID.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "integer",
+          "description": "Identificador único del pedido, por ejemplo 1"
+        },
+        "new_status": {
+          "type": "string",
+          "enum": ["in_transit", "delivered", "delayed"],
+          "description": "Nuevo estado del pedido"
+        }
+      },
+      "required": ["order_id", "new_status"],
+      "additionalProperties": false
+    }
+  }

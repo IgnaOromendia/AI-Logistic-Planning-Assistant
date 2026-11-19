@@ -1,0 +1,10 @@
+{
+    "name": "list_delayed_orders",
+    "description": "Obtiene las ordenes que se encuentran demoradas.",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": false
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "name": "get_order",
+    "description": "Obtiene la información de un pedido a partir de su ID.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "integer",
+          "description": "Identificador único del pedido, por ejemplo 1"
+        }
+      },
+      "required": ["order_id"],
+      "additionalProperties": false
+    }
+  }
