@@ -36,3 +36,13 @@ Las tools le dan al agente operaciones concretas sobre los pedidos. Las hicimos 
 ```
 
 La prueba inicia el servidor y verifica que el cliente descubre las tres herramientas.
+
+### RAG
+
+La empresa logística cuenta con documentación interna que describe cómo actuar frente a distintas situaciones.
+Se desarrolló un sistema RAG (Retrieval-Augmented Generation) para que pueda responder preguntas utilizando esa documentación. 
+
+Se implementó a traves de:
+- `index`: Lee los documentos, lo fragmenta y genera un embedding.
+- `search`: Recibe una pregunta, la convierte en embedding y busca los fragmentos que tengan mayor similitud.
+- `generate`: Genera el prompt para el LLM
