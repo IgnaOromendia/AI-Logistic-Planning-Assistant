@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
+
 from tools.orders import get_order, list_delayed_orders, update_order_status
+from tools.policies import search_policies
 
 TOOLS_DIR = Path(__file__).resolve().parent.parent / "tools"
 
@@ -8,6 +10,7 @@ TOOL_FUNCTIONS = {
     "get_order": get_order,
     "list_delayed_orders": list_delayed_orders,
     "update_order_status": update_order_status,
+    "search_policies": search_policies,
 }
 
 TOOL_SCHEMAS = [

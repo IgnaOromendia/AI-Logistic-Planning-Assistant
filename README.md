@@ -1,6 +1,6 @@
 ### MCP
 
-`logistics-mcp` es un servidor local del MCP que expone las herramientas de pedidos a clientes compatibles mediante `stdio`. Hace que las tools estén disponibles para clientes. Estas ya se podían probar localmente. Agregué el servidor logistics-mcp para que un cliente pueda descubrir qué herramientas existen, saber qué parámetros reciben e invocarlas a través de un protocolo estándar. El servidor reutiliza las funciones del registro del proyecto, así que la lógica de pedidos se mantiene en un solo lugar.
+`logistics-mcp` es un servidor MCP local que permite que un cliente compatible con `stdio` descubra e invoque las herramientas de pedidos y de búsqueda de políticas.
 
 #### Instalación
 
@@ -21,13 +21,12 @@ Configurá el cliente MCP para que lance este comando usando las rutas absolutas
 
 #### Tools
 
-Las tools le dan al agente operaciones concretas sobre los pedidos. Las hicimos para que pueda consultar un pedido por ID, buscar pedidos demorados y actualizar un estado. Cada operación tiene parámetros definidos, y la lógica queda en Python.
-
 | Tool | Parámetros | Qué hace |
 | --- | --- | --- |
 | `get_order` | `order_id` | Consulta un pedido por ID. |
 | `list_delayed_orders` | Ninguno | Consulta los pedidos con estado `delayed`. |
 | `update_order_status` | `order_id`, `new_status` | Actualiza el pedido en `data/orders.json`. Acepta `in_transit`, `delivered` y `delayed`. |
+| `search_policies` | `query` | Busca en las políticas internas y devuelve hasta tres fragmentos ordenados por relevancia. |
 
 #### Verificación
 
@@ -35,7 +34,7 @@ Las tools le dan al agente operaciones concretas sobre los pedidos. Las hicimos 
 .venv/bin/python -m unittest discover -s tests -p test_logistics_mcp.py -v
 ```
 
-La prueba inicia el servidor y verifica que el cliente descubre las tres herramientas.
+La prueba inicia el servidor y verifica que el cliente descubre las herramientas.
 
 ### RAG
 
@@ -45,4 +44,18 @@ Se desarrolló un sistema RAG (Retrieval-Augmented Generation) para que pueda re
 Se implementó a traves de:
 - `index`: Lee los documentos, lo fragmenta y genera un embedding.
 - `search`: Recibe una pregunta, la convierte en embedding y busca los fragmentos que tengan mayor similitud.
-- `generate`: Genera el prompt para el LLM
+- `generate`: Genera el prompt para el LLM.
+
+Antes de usar `search_policies`, generá el índice desde la raíz del repositorio. Volvé a generarlo cuando cambien los archivos de `policies/`.
+
+```bash
+.venv/bin/python -m rag.index
+```
+
+Desde un LLM conectado al servidor MCP, llamá a `search_policies` con estos argumentos.
+
+```json
+{"query": "¿Qué hago si el destinatario está ausente?"}
+```
+
+La respuesta incluye una lista `results`. Cada fragmento contiene el archivo de origen (`source`), el texto de la política (`text`) y el puntaje de similitud (`score`). El LLM puede usar esos fragmentos para responder y citar sus fuentes.

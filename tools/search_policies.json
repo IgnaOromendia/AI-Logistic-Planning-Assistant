@@ -1,0 +1,15 @@
+{
+    "name": "search_policies",
+    "description": "Busca en las políticas internas de logística sobre entregas, demoras, intentos fallidos, devoluciones y reclamos. Enviá una pregunta en lenguaje natural en query. Devuelve hasta tres fragmentos ordenados por relevancia, con su archivo fuente, texto y puntaje de similitud.",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+                "description": "Pregunta sobre las políticas logísticas, por ejemplo: ¿Qué hago si el destinatario está ausente?"
+            }
+        },
+        "required": ["query"],
+        "additionalProperties": false
+    }
+}

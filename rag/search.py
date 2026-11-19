@@ -7,18 +7,17 @@ from rag.index import STORAGE, MODEL_NAME
 
 
 def search(query: str, top_k: int = 3):
-    model = SentenceTransformer(MODEL_NAME)
-
-    embeddings = np.load(
-        STORAGE / "embeddings.npy"
-    )
-
-    chunks = json.loads(
-        (STORAGE / "chunks.json").read_text(
-            encoding="utf-8"
+    try:
+        embeddings = np.load(STORAGE / "embeddings.npy")
+        chunks = json.loads(
+            (STORAGE / "chunks.json").read_text(encoding="utf-8")
         )
-    )
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(
+            "Falta el índice de políticas. Ejecutá python -m rag.index desde la raíz del proyecto."
+        ) from exc
 
+    model = SentenceTransformer(MODEL_NAME)
     query_vector = model.encode(
         query,
         normalize_embeddings=True
