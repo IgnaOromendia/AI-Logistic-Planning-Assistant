@@ -1,6 +1,6 @@
 ### MCP
 
-`logistics-mcp` es un servidor local del Model Context Protocol (MCP) que expone las herramientas de pedidos a clientes compatibles mediante `stdio`.
+`logistics-mcp` es un servidor local del MCP que expone las herramientas de pedidos a clientes compatibles mediante `stdio`. Hace que las tools estén disponibles para clientes. Estas ya se podían probar localmente. Agregué el servidor logistics-mcp para que un cliente pueda descubrir qué herramientas existen, saber qué parámetros reciben e invocarlas a través de un protocolo estándar. El servidor reutiliza las funciones del registro del proyecto, así que la lógica de pedidos se mantiene en un solo lugar.
 
 #### Instalación
 
@@ -19,9 +19,11 @@ Configurá el cliente MCP para que lance este comando usando las rutas absolutas
 /ruta/al/repo/.venv/bin/python /ruta/al/repo/logistics_mcp.py
 ```
 
-#### Herramientas
+#### Tools
 
-| Herramienta | Parámetros | Qué hace |
+Las tools le dan al agente operaciones concretas sobre los pedidos. Las hicimos para que pueda consultar un pedido por ID, buscar pedidos demorados y actualizar un estado. Cada operación tiene parámetros definidos, y la lógica queda en Python.
+
+| Tool | Parámetros | Qué hace |
 | --- | --- | --- |
 | `get_order` | `order_id` | Consulta un pedido por ID. |
 | `list_delayed_orders` | Ninguno | Consulta los pedidos con estado `delayed`. |
